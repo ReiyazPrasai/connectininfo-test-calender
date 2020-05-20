@@ -1,3 +1,5 @@
+@import "../../../node_modules/react-big-calendar/lib/css/react-big-calendar.css";
+
 .login-form-wrapper {
   width: 40%;
   background: #281e3c;
@@ -26,6 +28,12 @@
 .header-anticon .anticon svg {
   display: inline-block;
   margin-bottom: 6px;
+}
+
+.header-menu-icon .anticon svg {
+  display: inline-block;
+  margin-bottom: 3px;
+  margin-right: 3px
 }
 
 .header-search .ant-input {
@@ -101,4 +109,61 @@
     box-sizing: border-box;
     width: 99.5%;
   }
+}
+
+.ant-layout-content {
+  -ms-flex: auto;
+  flex: auto;
+  height: 100%;
+}
+
+.ant-card-body-main-wrapper .ant-card-body {
+  height: 100%;
+}
+
+.rbc-time-header.rbc-overflowing {
+  height: 80px;
+}
+
+.rbc-time-header-content > .rbc-row.rbc-row-resource {
+  height: 40px;
+  color: #55c779;
+  font-size: large;
+  background: #e8e8e8;
+}
+
+.rbc-day-slot .rbc-event {
+    background: #9ee2b3;
+    margin-left: 5px;
+}
+
+
+
+.rbc-time-view .rbc-row {
+  min-height: 30px;
+  box-sizing: border-box;
+}
+
+.rbc-header {
+  padding-top: 10px;
+  height: 40px;
+}
+
+.rbc-event {
+  background-color: #9ee2b3;
+}
+
+.rbc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.rbc-btn-group {
+  display: inline-block;
+  white-space: nowrap;
+  margin-bottom: 5px;
 }

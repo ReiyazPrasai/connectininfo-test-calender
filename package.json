@@ -17,6 +17,7 @@
     "json-web-token": "^3.2.0",
     "mdbreact": "^4.25.2",
     "node-sass": "^4.14.1",
+    "rc-queue-anim": "^1.8.5",
     "react": "^16.12.0",
     "react-big-calendar": "^0.24.6",
     "react-bootstrap": "^1.0.0-beta.16",

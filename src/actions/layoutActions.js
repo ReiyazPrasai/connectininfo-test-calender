@@ -5,6 +5,5 @@ export const toggleCollapsedNav = (isCollapsedNav) => {
 };
 
 export const showBookingModel = (isShown) => {
-  console.log('action', isShown)
   return { type: SHOW_BOOKING_MODEL, isShowBookingModel: isShown };
 };

@@ -7,28 +7,24 @@ import AppMenu from "./Menu";
 
 const { Sider } = Layout;
 
-class AppSidenav extends React.Component {
-  render() {
-    const { collapsedNav, offCanvasNav, sidenavWidth } = this.props;
-
-    return (
-      <>
-        <Sider
-          collapsible
-          collapsed={collapsedNav || offCanvasNav}
-          collapsedWidth={0}
-          trigger={null}
-          width={sidenavWidth}
-          id="app-sidenav"
-        >
-          <div ref="sidenavContent">
-            <AppMenu />
-          </div>
-        </Sider>
-      </>
-    );
-  }
-}
+const AppSidenav = (props) => {
+  const { collapsedNav, sidenavWidth, innerWidth } = props;
+  
+  return (
+    <Sider
+      collapsible
+      collapsed={collapsedNav}
+      collapsedWidth={innerWidth > 570 ? 80 : 0}
+      trigger={null}
+      width={innerWidth < 570 ? 65 : sidenavWidth}
+      id="app-sidenav"
+    >
+      <div style={{ height: "100%" }}>
+        <AppMenu {...props} />
+      </div>
+    </Sider>
+  );
+};
 
 const mapStateToProps = (state) => ({
   collapsedNav: state.layout.collapsedNav,

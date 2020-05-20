@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Icon, Menu } from "antd";
 
-
 import MenuRoute from "../../../constants/menuRoute";
 
 class AppMenu extends React.Component {
@@ -23,7 +22,7 @@ class AppMenu extends React.Component {
     };
   }
 
-  getSubMenuOrItem = (item) => {
+  getSubMenuOrItem = (item, collapsedNav) => {
     const { location } = this.props;
     const segmentURL = window.location.pathname.split("/");
     const secondSegmentURL = "/" + segmentURL[1];
@@ -39,19 +38,26 @@ class AppMenu extends React.Component {
         className={
           secondSegmentURL === item.path &&
           (lastSegmentURL === "edit" || lastSegmentURL === "detail")
-            ? "ant-menu-item-selected"
-            : ""
+            ? "ant-menu-item-selected header-anticon"
+            : "header-anticon"
         }
       >
-        <Link to={item.path} style={{ textDecoration: "none" }}>
+        <Link
+          to={item.path}
+          style={{
+            textDecoration: "none",
+          }}
+        >
           <Icon type={item.iconName} />
-          <span className="nav-text">{item.menuName || item.name}</span>
+          {this.props.innerWidth > 569 && (
+            <span className="nav-text">{item.menuName || item.name}</span>
+          )}
         </Link>
       </Menu.Item>
     );
   };
 
-  getNavMenuItems = (menusData) => {
+  getNavMenuItems = (menusData, collapsedNav) => {
     if (!menusData) {
       return [];
     }
@@ -59,7 +65,7 @@ class AppMenu extends React.Component {
       .filter((item) => !item.hideInMenu)
       .map((item) => {
         // make dom
-        const ItemDom = this.getSubMenuOrItem(item);
+        const ItemDom = this.getSubMenuOrItem(item, collapsedNav);
         return ItemDom;
       })
       .filter((item) => item);
@@ -89,8 +95,8 @@ class AppMenu extends React.Component {
   }
 
   render() {
+    console.log("menu", this.props.innerWidth);
     const { collapsedNav, colorOption, location } = this.props;
-    // const mode = collapsedNav ? 'vertical' : 'inline';
     const menuTheme =
       ["31", "32", "33", "34", "35", "36"].indexOf(colorOption) >= 0
         ? "light"
@@ -106,7 +112,12 @@ class AppMenu extends React.Component {
 
     return (
       <Menu
-        style={{ background: "#281e3c", height: "92.2vh", overflowY: "auto" }}
+        style={{
+          background: "#281e3c",
+          height: "100%",
+          overflowY: "auto",
+          width: collapsedNav ? 80 : "100%",
+        }}
         theme={menuTheme}
         mode="inline"
         inlineCollapsed={collapsedNav}
@@ -114,7 +125,7 @@ class AppMenu extends React.Component {
         // onClick={this.onMenuItemClick}
         selectedKeys={[currentPathname]}
       >
-        {this.getNavMenuItems(this.getMenuData())}
+        {this.getNavMenuItems(this.getMenuData(), collapsedNav)}
       </Menu>
     );
   }

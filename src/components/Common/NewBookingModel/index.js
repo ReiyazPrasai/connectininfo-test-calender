@@ -1,25 +1,28 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
-
 import { withRouter } from "react-router-dom";
 import { bindActionCreators } from "redux";
-import {
-  Button,
-  Select,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Col,
-  DatePicker,
-} from "antd";
+import { Button, Select, Form, Input, Modal, Row, Col, DatePicker } from "antd";
 
+import history from "../../../utils/history";
+import { getDateArray } from "../../../utils/commonUtils";
 import { showBookingModel } from "../../../actions/layoutActions";
+import { getLocalStorage, setLocalStorage } from "../../../utils/storageUtil";
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 
+const { RangePicker } = DatePicker;
 const TransactionLimitModal = (props) => {
-  const { isShowBookingModel, handleShowBookingModel } = props;
+  const {
+    isShowBookingModel,
+    handleShowBookingModel,
+    form: { resetFields, validateFields, getFieldDecorator },
+  } = props;
+  const {
+    location: { pathname },
+    push,
+  } = history;
 
   const formLayout = {
     labelCol: {
@@ -40,18 +43,36 @@ const TransactionLimitModal = (props) => {
     labelAlign: "left",
   };
 
-  const {
-    resetFields,
-    getFieldValue,
-    validateFields,
-    getFieldDecorator,
-  } = props.form;
+  const resourceMap = [
+    { resourceId: 1, resourceTitle: "Room 105" },
+    { resourceId: 2, resourceTitle: "Room 106" },
+    { resourceId: 3, resourceTitle: "Room 107" },
+    { resourceId: 4, resourceTitle: "Room 108" },
+    { resourceId: 5, resourceTitle: "Room 201" },
+    { resourceId: 6, resourceTitle: "Room 202" },
+  ];
 
   const handleModalSubmit = (e) => {
     e.preventDefault();
+    const formData = {};
     validateFields((err, values) => {
       if (!err) {
+        formData.start = getDateArray(values.date[0]);
+        formData.end = getDateArray(values.date[1]);
+        formData.title = values.name;
+        formData.resourceId = Number(values.roomNo);
+        console.log(formData);
+        getLocalStorage("calendarEventList") instanceof Array
+          ? setLocalStorage("calendarEventList", [
+              ...getLocalStorage("calendarEventList"),
+              formData,
+            ])
+          : setLocalStorage("calendarEventList", [formData]);
+        resetFields();
         handleShowBookingModel(false);
+        pathname === "/calendar"
+          ? window.location.reload()
+          : push("./calendar");
       }
     });
   };
@@ -66,7 +87,7 @@ const TransactionLimitModal = (props) => {
       <Modal
         className="new-booking-modal-body"
         title={<span style={{ color: "#55c779" }}>Add Booking</span>}
-        width="25%"
+        width={350}
         onOk={() => {
           handleShowBookingModel(false);
         }}
@@ -75,7 +96,7 @@ const TransactionLimitModal = (props) => {
         style={{ top: 180 }}
         footer={[
           <Button
-            style={{ float: "left", border: 0, color: '#c5c5c5' }}
+            style={{ float: "left", border: 0, color: "#c5c5c5" }}
             key="back"
             onClick={handleCancel}
           >
@@ -103,7 +124,12 @@ const TransactionLimitModal = (props) => {
               <FormItem {...formLayout}>
                 {getFieldDecorator(
                   "name",
-                  {}
+                  {
+                    rules:[
+                      {required: true,
+                      message: 'Please enter your name'}
+                    ]
+                  }
                 )(<Input style={{ width: "100%" }} placeholder={"Name"} />)}
               </FormItem>
             </Col>
@@ -113,12 +139,24 @@ const TransactionLimitModal = (props) => {
               <FormItem {...formLayout}>
                 {getFieldDecorator(
                   "roomNo",
-                  {}
+                  {rules:[
+                    {required: true,
+                    message: 'Please select a room'}
+                  ]}
                 )(
                   <Select
                     style={{ width: "100%" }}
                     placeholder={"Select Room No"}
-                  />
+                  >
+                    {resourceMap.map((resourceItem) => (
+                      <Option
+                        key={resourceItem.resourceId}
+                        values={resourceItem.resourceId}
+                      >
+                        {resourceItem.resourceTitle}
+                      </Option>
+                    ))}
+                  </Select>
                 )}
               </FormItem>
             </Col>
@@ -127,10 +165,11 @@ const TransactionLimitModal = (props) => {
           <Row gutter={32}>
             <Col xl={24} lg={24} md={28} sm={24}>
               <FormItem {...formLayout}>
-                {getFieldDecorator(
-                  "date",
-                  {}
-                )(<DatePicker style={{ width: "100%" }} placeholder={"Date Picker"} />)}
+                {getFieldDecorator("date", {rules:[
+                      {required: true,
+                      message: 'Please select start and end date'}
+
+                    ]})(<RangePicker showTime style={{width:'100%'}}/>)}
               </FormItem>
             </Col>
           </Row>
