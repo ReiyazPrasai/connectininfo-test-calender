@@ -1,15 +1,20 @@
-import {combineReducers} from 'redux';
-import {connectRouter} from 'connected-react-router';
+import { combineReducers } from "redux";
+import { connectRouter } from "connected-react-router";
 
-import history from '../utils/history'
+import layoutReducer from "./layoutReducer";
 
-const rootReducer = (state, action)=>{
-    const appReducer = combineReducers(
-        {router: connectRouter(history)}
-    )
-    
-    return appReducer(state, action)
-}
+import history from "../utils/history";
 
+const appReducer = combineReducers({
+  router: connectRouter(history),
+  layout: layoutReducer,
+});
+
+const rootReducer = (state, action) => {
+  if (action?.type === "LOG_OUT_SUCCESS") {
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 
 export default rootReducer;
