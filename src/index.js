@@ -9,21 +9,13 @@ import { ConfigProvider } from "antd";
 import "antd/dist/antd.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { AuthProvider } from "./components/Context/AuthContext";
-
-// 3rd
-import './styles/antd.less';
-import './styles/bootstrap/bootstrap.scss';
-// // custom
-import './styles/layout.scss';
-import './styles/theme.scss';
-import './styles/ui.scss';
-import './styles/vendors.scss';
-import './styles/themes/normalize.css';
 
 import "./index.css";
+import "./styles/themes/normalize.css";
 import App from "./containers/App";
 import history from "./utils/history";
+import { AuthProvider } from "./components/Context/AuthContext";
+
 import * as serviceWorker from "./serviceWorker";
 
 const mountNode = document.getElementById("root");
@@ -34,7 +26,7 @@ ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <Router basename={process.env.PUBLIC_URL} history={history}>
-          <ConfigProvider csp={{ nonce: 'YourNonceCode' }}>
+          <ConfigProvider csp={{ nonce: "YourNonceCode" }}>
             <AuthProvider>
               <App />
             </AuthProvider>
