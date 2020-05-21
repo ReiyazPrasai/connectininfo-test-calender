@@ -1,4 +1,4 @@
-import React, { useContext,useState,} from "react";
+import React, { useContext, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
@@ -23,7 +23,6 @@ import {
   toggleCollapsedNav,
   showBookingModel,
 } from "../../../actions/layoutActions";
-
 
 const { Header } = Layout;
 
@@ -62,6 +61,12 @@ const AppHeader = (props) => {
       />
     );
   };
+
+  const notificationDropDown = (
+    <Menu>
+      <Menu.Item key="1">No Notifications </Menu.Item>
+    </Menu>
+  );
 
   const avatarDropdownItems = (
     <>
@@ -138,16 +143,23 @@ const AppHeader = (props) => {
       >
         + New Booking
       </Button>
-      <Icon
-        type="bell"
-        style={{
-          width: 20,
-          marginBottom: "5px",
-          height: 20,
-          marginRight: "10px",
-          color: "#55C779",
-        }}
-      />
+      <Dropdown
+        className="list-inline-item"
+        overlay={notificationDropDown}
+        trigger={["click"]}
+        placement="bottomCenter"
+      >
+        <Icon
+          type="bell"
+          style={{
+            width: 20,
+            marginBottom: "5px",
+            height: 20,
+            marginRight: "10px",
+            color: "#55C779",
+          }}
+        />
+      </Dropdown>
     </>
   );
 
@@ -209,7 +221,7 @@ const AppHeader = (props) => {
           zIndex: 1000,
           width: "100%",
           marginBottom: "20px",
-          height: 51
+          height: 51,
         }}
         className="header custom-app-header header-search no-focus no-hover"
       >
@@ -219,11 +231,11 @@ const AppHeader = (props) => {
               xl={{ span: 14 }}
               lg={{ span: 14 }}
               md={{ span: 14 }}
-              sm={18}
-              xs={18}
+              sm={{ span: 18 }}
+              xs={{ span: 18 }}
             >
               <Button
-                style={{ marginLeft: !collapsedNav?8:18}}
+                style={{ marginLeft: !collapsedNav ? 8 : 18 }}
                 type="link"
                 onClick={onToggleCollapsedNav}
               >
@@ -239,7 +251,7 @@ const AppHeader = (props) => {
                 style={{
                   width: innerWidth > 324 ? 150 : 90,
                   marginBottom: "5px",
-                  height:  innerWidth > 324 ? 40 : 35,
+                  height: innerWidth > 324 ? 40 : 35,
                   marginRight: "20px",
                 }}
               />
@@ -262,8 +274,8 @@ const AppHeader = (props) => {
               xl={{ span: 10 }}
               lg={{ span: 10 }}
               md={{ span: 10 }}
-              sm={6}
-              xs={6}
+              sm={{ span: 6 }}
+              xs={{ span: 6 }}
             >
               <div className={"button-hover"} style={{ float: "right" }}>
                 {getHeaderItems()}
@@ -272,7 +284,7 @@ const AppHeader = (props) => {
           </Row>
         </div>
       </Header>
-      {isDrawerVisible && innerWidth<=515 && innerWidth>=344 && (
+      {isDrawerVisible && innerWidth <= 515 && innerWidth >= 344 && (
         <div
           className=" header-search no-focus no-hover"
           style={{

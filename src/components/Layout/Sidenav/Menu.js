@@ -95,7 +95,6 @@ class AppMenu extends React.Component {
   }
 
   render() {
-    console.log("menu", this.props.innerWidth);
     const { collapsedNav, colorOption, location } = this.props;
     const menuTheme =
       ["31", "32", "33", "34", "35", "36"].indexOf(colorOption) >= 0

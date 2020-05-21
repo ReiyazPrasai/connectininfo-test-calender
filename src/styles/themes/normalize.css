@@ -1,10 +1,13 @@
 @import "../../../node_modules/react-big-calendar/lib/css/react-big-calendar.css";
 
 .login-form-wrapper {
-  width: 40%;
+  width: 400px;
+  height: 450px;
   background: #281e3c;
-  transform: translate(75%, 25%);
-  padding: 5%;
+  margin: auto;
+  transform: translateY(25%);
+  padding: 65px 40px 40px 40px;
+  box-shadow: 7px 7px 7px #969494;
 }
 
 .logo {
@@ -12,6 +15,7 @@
   margin: auto;
   margin-bottom: 10%;
 }
+
 .custom-app-header {
   height: 50px;
   padding: 0 20px 0 0;
@@ -33,7 +37,7 @@
 .header-menu-icon .anticon svg {
   display: inline-block;
   margin-bottom: 3px;
-  margin-right: 3px
+  margin-right: 3px;
 }
 
 .header-search .ant-input {
@@ -57,12 +61,36 @@
   box-shadow: 0 0 0 0;
 }
 
+.ant-input {
+  color: #969494;
+  background-color: transparent;
+  background-image: none;
+  border-radius: 3px;
+}
+
 .ant-input:focus,
-.ant-input:hover {
+.ant-input:hover,
+.ant-select:focus,
+.ant-select:hover {
   border-color: transparent;
   outline: 0;
-  -webkit-box-shadow: 0 0 0 1.5px #9ee2b3;
-  box-shadow: 0 0 0 1.5px #9ee2b3;
+  -webkit-box-shadow: 0 0 0 1.5px #55c779;
+  box-shadow: 0 0 0 1.5px #55c779;
+}
+
+.ant-select {
+  color: rgb(190, 188, 188);
+  background-color: transparent;
+  background-image: none;
+  border-radius: 3px;
+}
+
+.and-select-enabled:focus,
+.ant-select-selection::selection,
+.ant-select-selection:hover,
+.ant-calendar-input-wrap:focus,
+.ant-calendar-input-wrap:hover {
+  border-color: transparent;
 }
 
 .header-right {
@@ -82,13 +110,6 @@
 .button-hover .ant-btn:hover {
   -webkit-box-shadow: 0 0 0 1px #9ee2b3;
   box-shadow: 0 0 0 1px #9ee2b3;
-}
-
-.new-booking-modal-input .ant-input {
-  color: rgb(190, 188, 188);
-  background-color: transparent;
-  background-image: none;
-  border-radius: 3px;
 }
 
 .new-booking-modal-form-item .ant-form-item {
@@ -133,11 +154,9 @@
 }
 
 .rbc-day-slot .rbc-event {
-    background: #9ee2b3;
-    margin-left: 5px;
+  background: #9ee2b3;
+  margin-left: 5px;
 }
-
-
 
 .rbc-time-view .rbc-row {
   min-height: 30px;

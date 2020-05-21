@@ -61,7 +61,6 @@ const TransactionLimitModal = (props) => {
         formData.end = getDateArray(values.date[1]);
         formData.title = values.name;
         formData.resourceId = Number(values.roomNo);
-        console.log(formData);
         getLocalStorage("calendarEventList") instanceof Array
           ? setLocalStorage("calendarEventList", [
               ...getLocalStorage("calendarEventList"),
