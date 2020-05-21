@@ -13,16 +13,16 @@ import { getDateArray } from "../../utils/commonUtils";
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 const localizer = momentLocalizer(moment);
 
-const MyCalender = (props) => {
-  const resourceMap = [
-    { resourceId: 1, resourceTitle: "Room 105" },
-    { resourceId: 2, resourceTitle: "Room 106" },
-    { resourceId: 3, resourceTitle: "Room 107" },
-    { resourceId: 4, resourceTitle: "Room 108" },
-    { resourceId: 5, resourceTitle: "Room 201" },
-    { resourceId: 6, resourceTitle: "Room 202" },
-  ];
+const resourceMap = [
+  { resourceId: 1, resourceTitle: "Room 105" },
+  { resourceId: 2, resourceTitle: "Room 106" },
+  { resourceId: 3, resourceTitle: "Room 107" },
+  { resourceId: 4, resourceTitle: "Room 108" },
+  { resourceId: 5, resourceTitle: "Room 201" },
+  { resourceId: 6, resourceTitle: "Room 202" },
+];
 
+const MyCalender = (props) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [roomNo, setRoomNo] = useState(resourceMap);
 
@@ -75,11 +75,7 @@ const MyCalender = (props) => {
     nextEvents.splice(idx, 1, updatedEvent);
     const storageEvents = [...nextEvents];
 
-    setLocalStorage(
-      "calendarEventList",
-      getEventsForStorage(storageEvents),
-      nextEvents
-    );
+    setLocalStorage("calendarEventList", getEventsForStorage(storageEvents));
 
     setEvents(nextEvents);
   };
@@ -97,87 +93,72 @@ const MyCalender = (props) => {
 
     const storageEvents = [...nextEvents];
 
-    setLocalStorage(
-      "calendarEventList",
-      getEventsForStorage(storageEvents),
-      nextEvents
-    );
+    setLocalStorage("calendarEventList", getEventsForStorage(storageEvents));
 
     setEvents(nextEvents);
   };
 
-  const getCalendar = (
-    <DragAndDropCalendar
-      popup
-      selectable
-      localizer={localizer}
-      events={events}
-      onEventDrop={moveEvent}
-      resizable
-      resources={roomNo}
-      resourceIdAccessor="resourceId"
-      resourceTitleAccessor="resourceTitle"
-      onEventResize={resizeEvent}
-      defaultView="day"
-      step={15}
-      defaultDate={new Date()}
-    />
-  );
-
-  let [calendar, setCalendar] = useState(getCalendar);
-
-  useEffect(() => {
-    setCalendar(getCalendar);
-  }, [roomNo]);
-
   return (
     <>
-      <Row>
-        <Col
-          xl={{ span: 14 }}
-          lg={{ span: 14 }}
-          md={{ span: 14 }}
-          sm={{ span: 18 }}
-          xs={{ span: 18 }}
-        >
-          <h4>Calendar</h4>
-        </Col>
-        <Col
-          xl={{ span: 10 }}
-          lg={{ span: 10 }}
-          md={{ span: 10 }}
-          sm={{ span: 6 }}
-          xs={{ span: 6 }}
-        >
-          <div className="button-hover" style={{ float: "right" }}>
-            <Button
-              style={{
-                marginRight: "15px",
-                backgroundColor: "#55c779",
-                color: "white",
-              }}
-              onClick={() => {
-                setIsMenuVisible(!isMenuVisible);
-              }}
-            >
-              Menu
-            </Button>
-          </div>
-        </Col>
-      </Row>
-      <hr />
-      <div style={{ height: 600 }}>
-        {calendar}
-        <Menu
-          resourceMap={roomNo}
-          isMenuVisible={isMenuVisible}
-          setRoomNo={setRoomNo}
-          hideMenu={hideMenu}
-          {...props}
-        />
-      </div>
+    <Row>
+      <Col
+        xl={{ span: 14 }}
+        lg={{ span: 14 }}
+        md={{ span: 14 }}
+        sm={{ span: 18 }}
+        xs={{ span: 18 }}
+      >
+        <h4>Calendar</h4>
+      </Col>
+      <Col
+        xl={{ span: 10 }}
+        lg={{ span: 10 }}
+        md={{ span: 10 }}
+        sm={{ span: 6 }}
+        xs={{ span: 6 }}
+      >
+        <div className="button-hover" style={{ float: "right" }}>
+          <Button
+            style={{
+              marginRight: "15px",
+              backgroundColor: "#55c779",
+              color: "white",
+            }}
+            onClick={() => {
+              setIsMenuVisible(!isMenuVisible);
+            }}
+          >
+            Menu
+          </Button>
+        </div>
+      </Col>
+    </Row>
+    <hr />
+    <div style={{ height: 600 }}>
+      <DragAndDropCalendar
+        selectable
+        localizer={localizer}
+        events={events}
+        onEventDrop={moveEvent}
+        resizable
+        resources={roomNo}
+        resourceIdAccessor="resourceId"
+        resourceTitleAccessor="resourceTitle"
+        onEventResize={resizeEvent}
+        defaultView="day"
+        step={15}
+        showMultiDayTimes={true}
+        defaultDate={new Date()}
+      />
+      <Menu
+        resourceMap={roomNo}
+        isMenuVisible={isMenuVisible}
+        setRoomNo={setRoomNo}
+        hideMenu={hideMenu}
+        {...props}
+      />
+    </div>
     </>
   );
 };
-
 export default Form.create()(withRouter(MyCalender));
