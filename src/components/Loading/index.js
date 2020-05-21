@@ -3,10 +3,10 @@ import Loader from './Loader';
 
 const Loading = props => {
   if (props.error) {
-    return <div className="loader-container">Error! Please refresh the page</div>;
+    return <div style={{textAlign: 'center'}}>Error! Please refresh the page</div>;
   } else if (props.pastDelay) {
     return (
-      <div className="loader-container">
+      <div style={{textAlign: 'center'}}>
         {' '}
         <Loader />{' '}
       </div>

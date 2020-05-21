@@ -1,21 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
-import { DatePicker, Form, Select } from "antd";
+import { Form, Button, Row, Col } from "antd";
 import { withRouter } from "react-router-dom";
-import {
-  Calendar,
-  momentLocalizer,
-} from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 
+import Menu from "./Menu";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.scss";
 import { getLocalStorage, setLocalStorage } from "../../utils/storageUtil";
 import { getDateArray } from "../../utils/commonUtils";
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 const localizer = momentLocalizer(moment);
-const FormItem = Form.Item;
-const Option = Select.Option;
 
 const resourceMap = [
   { resourceId: 1, resourceTitle: "Room 105" },
@@ -27,38 +23,9 @@ const resourceMap = [
 ];
 
 const MyCalender = (props) => {
-  const {
-    form: { getFieldValue, getFieldDecorator },
-  } = props;
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [roomNo, setRoomNo] = useState(resourceMap);
 
-  const formLayout = {
-    labelCol: {
-      xl: { span: 8 },
-      lg: { span: 9 },
-      md: { span: 12 },
-      sm: { span: 8 },
-      xs: { span: 24 },
-    },
-    wrapperCol: {
-      xl: { span: 15 },
-      lg: { span: 12 },
-      md: { span: 24 },
-      sm: { span: 16 },
-      xs: { span: 24 },
-    },
-    colon: false,
-    labelAlign: "left",
-  };
-
-  const defaultDate = getFieldValue("date")
-    ? new Date(...getDateArray(getFieldValue("date")))
-    : new Date();
-  const selectedRoom =
-    getFieldValue("roomNo")?.length > 0
-      ? resourceMap.filter((room) => {
-          return getFieldValue("roomNo").includes(String(room.resourceId));
-        })
-      : resourceMap;
   const calendarEventList = getLocalStorage("calendarEventList") ?? [];
   const eventList =
     calendarEventList.length > 0
@@ -116,6 +83,10 @@ const MyCalender = (props) => {
     setEvents(nextEvents);
   };
 
+  const hideMenu = () => {
+    setIsMenuVisible(false);
+  };
+
   const resizeEvent = ({ event, start, end }) => {
     const nextEvents = events.map((existingEvent) => {
       return existingEvent.id === event.id
@@ -134,62 +105,73 @@ const MyCalender = (props) => {
     setEvents(nextEvents);
   };
 
+  const getCalendar = (
+    <DragAndDropCalendar
+      popup
+      selectable
+      localizer={localizer}
+      events={events}
+      onEventDrop={moveEvent}
+      resizable
+      resources={roomNo}
+      resourceIdAccessor="resourceId"
+      resourceTitleAccessor="resourceTitle"
+      onEventResize={resizeEvent}
+      defaultView="day"
+      step={15}
+      defaultDate={new Date()}
+    />
+  );
+
+  let [calendar, setCalendar] = useState(getCalendar);
+
+  useEffect(() => {
+    setCalendar(getCalendar);
+  }, [roomNo]);
+
   return (
     <>
-      <h4>Calendar</h4>
-      <hr />
-
-      <Form style={{ width: "100%" }}>
-        <FormItem
-          style={{ width: "340px", marginBottom: "10px" }}
-          {...formLayout}
+      <Row>
+        <Col
+          xl={{ span: 14 }}
+          lg={{ span: 14 }}
+          md={{ span: 14 }}
+          sm={{ span: 18 }}
+          xs={{ span: 18 }}
         >
-          {getFieldDecorator(
-            "roomNo",
-            {}
-          )(
-            <Select
-              mode="multiple"
-              style={{ minWidth: "250px", width: "auto" }}
-              placeholder={"Select Room No"}
+          <h4>Calendar</h4>
+        </Col>
+        <Col
+          xl={{ span: 10 }}
+          lg={{ span: 10 }}
+          md={{ span: 10 }}
+          sm={{ span: 6 }}
+          xs={{ span: 6 }}
+        >
+          <div className="button-hover" style={{ float: "right" }}>
+            <Button
+              style={{
+                marginRight: "15px",
+                backgroundColor: "#55c779",
+                color: "white",
+              }}
+              onClick={() => {
+                setIsMenuVisible(!isMenuVisible);
+              }}
             >
-              {resourceMap.map((resourceItem) => (
-                <Option
-                  key={resourceItem.resourceId}
-                  values={resourceItem.resourceId}
-                >
-                  {resourceItem.resourceTitle}
-                </Option>
-              ))}
-            </Select>
-          )}
-        </FormItem>
-        <FormItem
-          style={{ width: "340px", marginBottom: "10px" }}
-          {...formLayout}
-        >
-          {getFieldDecorator(
-            "date",
-            {}
-          )(<DatePicker style={{ width: "250px" }} />)}
-        </FormItem>
-      </Form>
+              Menu
+            </Button>
+          </div>
+        </Col>
+      </Row>
       <hr />
       <div style={{ height: 600 }}>
-        <DragAndDropCalendar
-          selectable
-          localizer={localizer}
-          events={events}
-          onEventDrop={moveEvent}
-          resizable
-          resources={selectedRoom}
-          resourceIdAccessor="resourceId"
-          resourceTitleAccessor="resourceTitle"
-          onEventResize={resizeEvent}
-          defaultView="day"
-          step={15}
-          defaultDate={defaultDate}
-          date={defaultDate}
+        {calendar}
+        <Menu
+          isMenuVisible={isMenuVisible}
+          setRoomNo={setRoomNo}
+          hideMenu={hideMenu}
+          {...props}
         />
       </div>
     </>

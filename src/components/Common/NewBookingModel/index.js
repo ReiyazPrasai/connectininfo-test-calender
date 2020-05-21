@@ -13,7 +13,8 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 const { RangePicker } = DatePicker;
-const TransactionLimitModal = (props) => {
+
+const NewBookingModel = (props) => {
   const {
     isShowBookingModel,
     handleShowBookingModel,
@@ -192,4 +193,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Form.create()(withRouter(TransactionLimitModal)));
+)(Form.create()(withRouter(NewBookingModel)));

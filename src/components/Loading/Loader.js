@@ -9,7 +9,7 @@ const Loader = ({ center = false }) => {
       </div>
     );
   }
-  return <Spin size="large" />;
+  return <Spin tip="Loading..." size="large" />;
 };
 
 export default Loader;
