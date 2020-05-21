@@ -11,19 +11,13 @@ const CalendarMenu = (props) => {
     setRoomNo,
     isMenuVisible,
     hideMenu,
+    resourceMap,
     form: { resetFields, validateFields, getFieldDecorator },
-  } = props;
+  } = props;  
 
-  const resourceMap = [
-    { resourceId: 1, resourceTitle: "Room 105" },
-    { resourceId: 2, resourceTitle: "Room 106" },
-    { resourceId: 3, resourceTitle: "Room 107" },
-    { resourceId: 4, resourceTitle: "Room 108" },
-    { resourceId: 5, resourceTitle: "Room 201" },
-    { resourceId: 6, resourceTitle: "Room 202" },
-  ];
+  console.log(resourceMap)
 
-  const formLayout = {
+    const formLayout = {
     labelCol: {
       xl: { span: 8 },
       lg: { span: 9 },
@@ -109,7 +103,7 @@ const CalendarMenu = (props) => {
                 mode="multiple"
                 placeholder={"Select Room No"}
               >
-                {resourceMap.map((resourceItem) => (
+                {resourceMap instanceof Array && resourceMap?.map((resourceItem) => (
                   <Option
                     key={resourceItem.resourceId}
                     values={resourceItem.resourceId}

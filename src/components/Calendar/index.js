@@ -13,20 +13,21 @@ import { getDateArray } from "../../utils/commonUtils";
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 const localizer = momentLocalizer(moment);
 
-const resourceMap = [
-  { resourceId: 1, resourceTitle: "Room 105" },
-  { resourceId: 2, resourceTitle: "Room 106" },
-  { resourceId: 3, resourceTitle: "Room 107" },
-  { resourceId: 4, resourceTitle: "Room 108" },
-  { resourceId: 5, resourceTitle: "Room 201" },
-  { resourceId: 6, resourceTitle: "Room 202" },
-];
-
 const MyCalender = (props) => {
+  const resourceMap = [
+    { resourceId: 1, resourceTitle: "Room 105" },
+    { resourceId: 2, resourceTitle: "Room 106" },
+    { resourceId: 3, resourceTitle: "Room 107" },
+    { resourceId: 4, resourceTitle: "Room 108" },
+    { resourceId: 5, resourceTitle: "Room 201" },
+    { resourceId: 6, resourceTitle: "Room 202" },
+  ];
+
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [roomNo, setRoomNo] = useState(resourceMap);
 
   const calendarEventList = getLocalStorage("calendarEventList") ?? [];
+
   const eventList =
     calendarEventList.length > 0
       ? calendarEventList?.map((event, index) => {
@@ -168,6 +169,7 @@ const MyCalender = (props) => {
       <div style={{ height: 600 }}>
         {calendar}
         <Menu
+          resourceMap={roomNo}
           isMenuVisible={isMenuVisible}
           setRoomNo={setRoomNo}
           hideMenu={hideMenu}
