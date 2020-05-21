@@ -15,8 +15,6 @@ const CalendarMenu = (props) => {
     form: { resetFields, validateFields, getFieldDecorator },
   } = props;  
 
-  console.log(resourceMap)
-
     const formLayout = {
     labelCol: {
       xl: { span: 8 },
