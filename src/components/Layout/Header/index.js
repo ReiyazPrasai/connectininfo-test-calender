@@ -71,7 +71,7 @@ const AppHeader = (props) => {
   const avatarDropdownItems = (
     <>
       <Menu.Item key="1">
-        <Link style={{ textAlign: "center" }} to={`/profile`}>
+        <Link style={{ textAlign: "center" }} to={`/admin/profile`}>
           <div className="header-anticon" style={{ marginTop: "8px" }}>
             <Icon type="profile" /> Profile
           </div>

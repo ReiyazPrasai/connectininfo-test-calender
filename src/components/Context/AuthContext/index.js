@@ -38,7 +38,7 @@ const AuthProvider = (props) => {
   const login = (formData) => {
     if (formData.userId === "reiyaz" && formData.password === "Test@123") {
       setLoading(true);
-      history.push("/dashboard");
+      history.push("/");
       setLocalStorage("user", formData.userId);
       setUser(formData.userId);
       setErrorMessage(null);

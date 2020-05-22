@@ -1,58 +1,37 @@
 import loadable from "react-loadable";
 import LoadingComponent from "../../components/Loading";
 
-export const AsyncLayout = loadable({
+const asyncComponent = (importString) => {
+  return {
+    loader: () => import(`../${importString}/${importString}Container`),
+    loading: LoadingComponent,
+  };
+};
+
+const AsyncLayout = loadable({
   loader: () => import("../../components/Layout"),
   loading: LoadingComponent,
 });
 
-export const AsyncLoginForm = loadable({
-  loader: () => import("../../containers/Auth/LoginContainer"),
-  loading: LoadingComponent,
-});
+export default [
+  AsyncLayout,
+  false,
+  [
+    [loadable(asyncComponent("Auth")), ["login"], 1],
+    [
+      loadable(asyncComponent("Dashboard")),
+      ["", "dashboard", "admin/", "admin"],
+    ],
+    [loadable(asyncComponent("Booking")), ["booking"]],
+    [loadable(asyncComponent("Room")), ["room"]],
+    [loadable(asyncComponent("Food")), ["food"]],
+    [loadable(asyncComponent("Staff")), ["staff"]],
+    [loadable(asyncComponent("Rate")), ["rate"]],
+    [loadable(asyncComponent("Price")), ["price"]],
+    [loadable(asyncComponent("Property")), ["property"]],
+    [loadable(asyncComponent("Facility")), ["facility"]],
+    [loadable(asyncComponent("Calendar")), ["calendar"]],
+    [loadable(asyncComponent("Profile")), ["profile"]],
+  ],
+];
 
-export const AsyncDashboard = loadable({
-  loader: () => import("../Dashboard/DashboardContainer"),
-  loading: LoadingComponent,
-});
-
-export const AsyncBooking = loadable({
-  loader: () => import("../Booking/BookingContainer"),
-  loading: LoadingComponent,
-});
-export const AsyncRoom = loadable({
-  loader: () => import("../Room/RoomContainer"),
-  loading: LoadingComponent,
-});
-export const AsyncFood = loadable({
-  loader: () => import("../Food/FoodContainer"),
-  loading: LoadingComponent,
-});
-export const AsyncStaff = loadable({
-  loader: () => import("../Staff/StaffContainer"),
-  loading: LoadingComponent,
-});
-export const AsyncRate = loadable({
-  loader: () => import("../Rate/RateContainer"),
-  loading: LoadingComponent,
-});
-export const AsyncPrice = loadable({
-  loader: () => import("../Price/PriceContainer"),
-  loading: LoadingComponent,
-});
-export const AsyncProperty = loadable({
-  loader: () => import("../Property/PropertyContainer"),
-  loading: LoadingComponent,
-});
-export const AsyncFacility = loadable({
-  loader: () => import("../Facility/FacilityContainer"),
-  loading: LoadingComponent,
-});
-export const AsyncCalendar = loadable({
-  loader: () => import("../Calendar/CalendarContainer"),
-  loading: LoadingComponent,
-});
-export const AsyncProfile = loadable({
-  loader: () => import("../Profile/ProfileContainer"),
-  loading: LoadingComponent,
-});

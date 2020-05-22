@@ -24,8 +24,9 @@ class AppMenu extends React.Component {
 
   getSubMenuOrItem = (item, collapsedNav) => {
     const { location } = this.props;
-    const segmentURL = window.location.pathname.split("/");
-    const secondSegmentURL = "/" + segmentURL[1];
+    const segmentURL = location.pathname.split("/");
+
+    const secondSegmentURL = "/" + segmentURL[2];
     const currentPathname =
       location && location.pathname ? location.pathname : "/";
     const lastSegmentURL = currentPathname.substr(
@@ -36,14 +37,15 @@ class AppMenu extends React.Component {
       <Menu.Item
         key={item.path}
         className={
-          secondSegmentURL === item.path &&
-          (lastSegmentURL === "edit" || lastSegmentURL === "detail")
+          secondSegmentURL === item.path
             ? "ant-menu-item-selected header-anticon"
             : "header-anticon"
         }
       >
+        {secondSegmentURL === item.path &&
+          console.log("here", secondSegmentURL, "there", item.path)}
         <Link
-          to={item.path}
+          to={"/admin" + item.path}
           style={{
             textDecoration: "none",
           }}
